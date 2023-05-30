@@ -1,4 +1,4 @@
-package med.voll.api.model;
+package med.voll.api.domain;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ public class Endereco {
     private String cidade;
     private String uf;
 
-    public Endereco(med.voll.api.model.dto.Endereco dados) {
+    public Endereco(med.voll.api.domain.dto.Endereco dados) {
         this.logradouro = dados.logradouro();
         this.bairro = dados.bairro();
         this.cep = dados.cep();
@@ -28,7 +28,7 @@ public class Endereco {
         this.uf = dados.uf();
     }
 
-    public void atualizarInformacoes(med.voll.api.model.dto.Endereco dados) {
+    public void atualizarInformacoes(med.voll.api.domain.dto.Endereco dados) {
         if (dados.logradouro() != null) {
             this.logradouro = dados.logradouro();
         }

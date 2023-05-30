@@ -1,45 +1,48 @@
-package med.voll.api.model;
+package med.voll.api.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import med.voll.api.model.dto.DadosAtualizacaoPaciente;
-import med.voll.api.model.dto.DadosCadastroPaciente;
+import med.voll.api.enums.Especialidade;
+import med.voll.api.domain.dto.DadosAtualizacaoMedico;
+import med.voll.api.domain.dto.DadosCadastroMedico;
 
-@Table(name = "pacientes")
-@Entity(name = "Paciente")
+@Table(name = "medicos")
+@Entity(name = "Medico")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Paciente {
-
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Medico {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private String email;
-
     private String telefone;
+    private String crm;
 
-    private String cpf;
+    @Enumerated(EnumType.STRING)
+    private Especialidade especialidade;
 
     @Embedded
     private Endereco endereco;
 
     private Boolean ativo;
 
-    public Paciente(DadosCadastroPaciente dados) {
+    public Medico(DadosCadastroMedico dados) {
         this.ativo = true;
         this.nome = dados.nome();
         this.email = dados.email();
         this.telefone = dados.telefone();
-        this.cpf = dados.cpf();
+        this.crm = dados.crm();
+        this.especialidade = dados.especialidade();
         this.endereco = new Endereco(dados.endereco());
     }
 
-    public void atualizarInformacoes(DadosAtualizacaoPaciente dados) {
+    public void atualizaInformacoes(DadosAtualizacaoMedico dados) {
         if (dados.nome() != null) {
             this.nome = dados.nome();
         }
@@ -49,10 +52,9 @@ public class Paciente {
         if (dados.endereco() != null) {
             this.endereco.atualizarInformacoes(dados.endereco());
         }
-
     }
 
-    public void excluir() {
+    public void excluir(Long id) {
         this.ativo = false;
     }
 }
