@@ -11,3 +11,7 @@ spring:
       hibernate:
         format_sql : true
 
+server:
+  error:
+    include-stacktrace: never
+
