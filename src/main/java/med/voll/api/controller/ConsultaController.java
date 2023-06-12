@@ -21,14 +21,14 @@ public class ConsultaController {
     @Transactional
     public ResponseEntity agendar(@RequestBody @Valid DadosAgendamentoConsulta dados){
 
-        agendaConsultasService.agendar(dados);
-        return ResponseEntity.ok(new DadosDetalhamentoConsulta(null, null, null, null));
+        var detalheConsulta = agendaConsultasService.agendar(dados);
+        return ResponseEntity.ok(detalheConsulta);
     }
 
     @PutMapping
     @Transactional
     public ResponseEntity cancelar(@RequestBody @Valid DadosCancelamentoConsulta dados){
         var consultaCancelada = agendaConsultasService.cancelar(dados);
-        return ResponseEntity.ok(consultaCancelada.getId());
+        return ResponseEntity.ok(new DadosDetalhamentoConsulta(consultaCancelada));
     }
 }
